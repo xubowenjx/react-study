@@ -1,18 +1,64 @@
+import { Menu, Icon } from 'antd'
 import React from 'react'
-import { Link } from 'react-router-dom'
-import './style.less';
-class menu extends React.Component {
+
+const SubMenu = Menu.SubMenu
+const MenuItemGroup = Menu.ItemGroup
+
+class MyMenu extends React.Component {
+  state = {
+    current: 'mail',
+  }
+
+  handleClick = (e) => {
+    console.log('click ', e)
+    this.setState({
+      current: e.key,
+    })
+  }
+
   render() {
-    var names = ['home', 'two', 'three'];
     return (
-      <ul className="menu">
-         {
-           names.map(function (name, index) {
-            return <li key={index}><Link to={index===0?'/':name}>{name}</Link></li>
-          })
-         }
-      </ul>
+      <Menu
+        onClick={this.handleClick}
+        selectedKeys={[this.state.current]}
+        mode="horizontal"
+      >
+        <Menu.Item key="mail">
+          <Icon type="mail" />
+          Navigation One
+        </Menu.Item>
+        <Menu.Item key="app" disabled>
+          <Icon type="appstore" />
+          Navigation Two
+        </Menu.Item>
+        <SubMenu
+          title={
+            <span className="submenu-title-wrapper">
+              <Icon type="setting" />
+              Navigation Three - Submenu
+            </span>
+          }
+        >
+          <MenuItemGroup title="Item 1">
+            <Menu.Item key="setting:1">Option 1</Menu.Item>
+            <Menu.Item key="setting:2">Option 2</Menu.Item>
+          </MenuItemGroup>
+          <MenuItemGroup title="Item 2">
+            <Menu.Item key="setting:3">Option 3</Menu.Item>
+            <Menu.Item key="setting:4">Option 4</Menu.Item>
+          </MenuItemGroup>
+        </SubMenu>
+        <Menu.Item key="alipay">
+          <a
+            href="https://ant.design"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Navigation Four - Link
+          </a>
+        </Menu.Item>
+      </Menu>
     )
   }
 }
-export default menu
+export default MyMenu
